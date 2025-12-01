@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ReRug | Analysis & Recursion</title>
+    <style>
+        /* 
+           MODERN 2025 MINIMALIST RESET 
+           Focus: Compact, clean, high-density information.
+        */
+        :root {
+            --bg-overlay: rgba(15, 15, 20, 0.92); /* Dark, serious overlay */
+            --text-main: #e0e0e0;
+            --text-muted: #8a8a90;
+            --accent: #ffffff;
+            --border: #333333;
+            --font-stack: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: #050505;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax feel without the motion */
+            color: var(--text-main);
+            line-height: 1.5;
+            font-size: 14px; /* Slightly smaller for the "zoomed out" feel */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* MAIN CONTAINER: The "Card" */
+        .wrapper {
+            width: 100%;
+            max-width: 900px; /* Restricts width for compactness */
+            background: var(--bg-overlay);
+            backdrop-filter: blur(10px); /* Modern frosted glass */
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand img {
+            height: 32px; /* Small logo */
+            width: auto;
+        }
+
+        .brand h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .nav-btn {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--text-main);
+            color: #000;
+            border-color: var(--text-main);
+        }
+
+        /* INTRO SECTION */
+        .intro {
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .intro p {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--accent);
+            line-height: 1.4;
+        }
+
+        /* PATHS GRID */
+        .paths-section {
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            display: block;
+            border-left: 2px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 across for compactness */
+            gap: 15px;
+        }
+
+        .path-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .path-card:hover {
+            border-color: var(--text-muted);
+        }
+
+        .path-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%); /* Keeps it serious */
+            transition: filter 0.2s;
+        }
+
+        .path-card:hover img {
+            filter: grayscale(0%);
+        }
+
+        .path-caption {
+            padding: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            border-top: 1px solid var(--border);
+        }
+
+        /* TEXT COLUMNS */
+        .text-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .col h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .col p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr); /* 2x2 on mobile */
+            }
+            .text-columns {
+                grid-template-columns: 1fr; /* Stack text on mobile */
+                gap: 20px;
+            }
+            .wrapper {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="wrapper">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="brand">
+                <img src="image__7_-removebg-preview.png" alt="Project ReRug Logo">
+                <h1>Project ReRug</h1>
+            </div>
+            <a href="https://twitter.com" target="_blank" class="nav-btn">Twitter / X</a>
+        </header>
+
+        <!-- INTRO -->
+        <section class="intro">
+            <div class="tagline">You’ve seen this before. You’ll see it again.</div>
+            <p>
+                Project ReRug is a high-velocity Deja Vu engine. We analyze the immutable laws of the memetic economy to map the statistical certainty of you buying the top, again. We study the timeline from "We Are So Back" to "Liquidity Removed." This is not a prediction; it is a structural guarantee that you will hold the bag.
+            </p>
+        </section>
+
+        <!-- PATHS VISUALIZATION -->
+        <section class="paths-section">
+            <span class="section-label">The Recursion Sequences</span>
+            <div class="grid">
+                <div class="path-card">
+                    <img src="d.png" alt="Path 1">
+                    <div class="path-caption">01. Initiation Protocol</div>
+                </div>
+                <div class="path-card">
+                    <img src="c.png" alt="Path 2">
+                    <div class="path-caption">02. Volatility Index</div>
+                </div>
+                <div class="path-card">
+                    <img src="b.png" alt="Path 3">
+                    <div class="path-caption">03. Liquidity Event</div>
+                </div>
+                <div class="path-card">
+                    <img src="a.png" alt="Path 4">
+                    <div class="path-caption">04. The Reset</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAILED CONCEPTS -->
+        <section class="text-columns">
+            <div class="col">
+                <h3>The Architecture of Cycles</h3>
+                <p>
+                    Financial history does not repeat, but it rhymes with high fidelity. Project ReRug identifies the underlying architecture that governs these rhymes. By stripping away the noise of sentiment and speculation, we are left with the raw mechanics of the transfer of value. The path is predetermined by the inputs of the participants.
+                </p>
+                <p>
+                    Our methodology requires a detached observation state. We do not interfere with the cycle; we merely document the structural integrity of the loop.
+                </p>
+            </div>
+            <div class="col">
+                <h3>Behavioral Inevitability</h3>
+                <p>
+                    The variables change, but the constants remain. Fear, greed, and the tendency toward centralization are the constants. Project ReRug maps these constants onto a linear timeline, creating a visualization of the loop before it closes.
+                </p>
+                <p>
+                    To understand the future state of the ecosystem, one must simply look at the initial conditions. The conclusion is written in the introduction. We are simply turning the page.
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2025 Project ReRug. All rights reserved. System operational.
+        </footer>
+
+    </main>
+
+</body>
+</html>
